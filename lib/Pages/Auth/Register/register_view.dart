@@ -61,6 +61,7 @@ class _RegisterViewState extends State<RegisterView> {
     await HelperFunctions.setUserEmailSf(email);
     await HelperFunctions.setUserLoggedInStatus(true);
     await HelperFunctions.setUserNameSf("${fName} ${lName}");
+    await HelperFunctions.setProfilePicture("");
   }
 
   Future signup() async {
@@ -79,6 +80,7 @@ class _RegisterViewState extends State<RegisterView> {
           "email": emailcontroller.text,
           "fName": "",
           "lName": "",
+          "profilePicture": "",
           "favGenres": <String>[],
           "configured": false
         }).then((e) => {Navigator.pushNamed(context, '/config')});

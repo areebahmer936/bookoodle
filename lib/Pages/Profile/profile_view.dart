@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:bookoodle/AuthService/helper_functions.dart';
-import 'package:bookoodle/Pages/Profile/widgets/book_Card.dart';
+import 'package:bookoodle/Pages/Profile/widgets/owned_book_Card.dart';
+import 'package:bookoodle/Pages/Profile/widgets/wishlist_book_Card.dart';
 import 'package:bookoodle/models/book.dart';
 import 'package:bookoodle/models/user.dart';
 import 'package:bookoodle/widgets/widgets.dart';
@@ -70,7 +71,7 @@ class _ProfileViewState extends State<ProfileView> {
     }
   }
 
-  bookLists(list) {
+  bookLists(list, mode) {
     print(list.length);
     return Container(
       padding: EdgeInsets.all(12),
@@ -93,8 +94,12 @@ class _ProfileViewState extends State<ProfileView> {
                   shrinkWrap: true,
                   itemCount: list.length,
                   itemBuilder: (BuildContext context, int index) {
+                    if (mode == "owned") {
+                      return OwnedBookCard(book: list[index]);
+                    } else {
+                      return WishlistBookCard(book: list[index]);
+                    }
                     // You can customize each item here based on the index
-                    return BookCard();
                   },
                 ),
     );
@@ -264,7 +269,7 @@ class _ProfileViewState extends State<ProfileView> {
                       ],
                     ),
                     const SizedBox(height: 8),
-                    bookLists(wishlist),
+                    bookLists(wishlist, "wishlist"),
                     const SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -291,7 +296,7 @@ class _ProfileViewState extends State<ProfileView> {
                       ],
                     ),
                     const SizedBox(height: 8),
-                    bookLists(ownedBooks)
+                    bookLists(ownedBooks, "owned")
                   ]),
             ),
           ),

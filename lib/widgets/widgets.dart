@@ -12,6 +12,7 @@ Color brown = Color.fromARGB(255, 107, 102, 105);
 Color peach = const Color(0xfff5b693);
 Color dpeach = const Color.fromARGB(255, 245, 158, 111);
 Color lightPeach = const Color.fromARGB(255, 238, 212, 198);
+Color lGrey = const Color.fromARGB(255, 238, 238, 238);
 
 void showSnackbar(context, message, color) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(

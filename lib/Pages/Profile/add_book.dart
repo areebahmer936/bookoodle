@@ -69,6 +69,7 @@ class _AddBookState extends State<AddBook> {
     url = await ref.getDownloadURL();
 
     Book book = Book(
+        uid: FirebaseAuth.instance.currentUser!.uid,
         bookName: bookName.text,
         bookAuthor: bookAuthor.text,
         bookPictureUrl: url,

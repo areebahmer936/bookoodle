@@ -34,7 +34,7 @@ myChatContainer(BuildContext context, Message message, index) {
                 padding: const EdgeInsets.only(bottom: 10.0),
                 child: Text(message.content,
                     style:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.w400)),
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
               ),
             ),
             Padding(
@@ -48,17 +48,6 @@ myChatContainer(BuildContext context, Message message, index) {
                         TextStyle(fontWeight: FontWeight.w300, fontSize: 10)),
               ),
             ),
-            // Positioned(
-            //   right: 25,
-            //   bottom: 3,
-            //   child: Text(
-            //     "${message.time.hour}:${message.time.minute} ${message.time.hour > 12 ? "PM" : "AM"}",
-            //     style: const TextStyle(
-            //       color: Colors.black,
-            //       fontSize: 12,
-            //     ),
-            //   ),
-            // ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 2),
               child: Icon(Icons.done_all,

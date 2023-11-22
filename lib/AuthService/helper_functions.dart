@@ -54,9 +54,19 @@ class HelperFunctions {
     return await sf.getString(userRoleKey);
   }
 
+  static Future<String?> getNameSf() async {
+    SharedPreferences sf = await SharedPreferences.getInstance();
+    return await sf.getString(userNameKey);
+  }
+
   static Future<String?> getUid() async {
     SharedPreferences sf = await SharedPreferences.getInstance();
     return await sf.getString(myUid);
+  }
+
+  static Future<String?> getEmailsf() async {
+    SharedPreferences sf = await SharedPreferences.getInstance();
+    return await sf.getString(userEmailKey);
   }
 
   static Future<String?> getProfilePicture() async {

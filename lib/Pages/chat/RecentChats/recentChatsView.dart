@@ -112,28 +112,32 @@ class _RecentChatsViewState extends State<RecentChatsView> {
                                     const SizedBox(
                                       width: 12,
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 5, horizontal: 10.0),
-                                      child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              snapshot.data['fName'],
-                                              style: const TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w500,
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 5, horizontal: 10.0),
+                                        child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                snapshot.data['fName'],
+                                                style: const TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
                                               ),
-                                            ),
-                                            Text(
-                                              "Last message: ${docData['lastMessage']}",
-                                              maxLines: 1,
-                                              style: const TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w300),
-                                            )
-                                          ]),
+                                              Text(
+                                                "Last message: ${docData['lastMessage']}",
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                                style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.w300),
+                                              )
+                                            ]),
+                                      ),
                                     )
                                   ],
                                 )),

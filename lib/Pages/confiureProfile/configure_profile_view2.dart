@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:bookoodle/AuthService/helper_functions.dart';
 import 'package:bookoodle/Pages/confiureProfile/widgets/genre_chips.dart';
 import 'package:bookoodle/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -27,6 +28,10 @@ class _ConfigureProfile2State extends State<ConfigureProfile2> {
     print(widget.arguments["lName"]);
   }
 
+  setPref(fName, lName) async {
+    await HelperFunctions.setUserNameSf("${fName} $lName");
+  }
+
   setUpProfile(List favGenres) async {
     setState(() {
       isLoading = true;
@@ -38,7 +43,10 @@ class _ConfigureProfile2State extends State<ConfigureProfile2> {
       "phoneNumber": widget.arguments['phoneNumber'],
       "favGenres": favGenres,
       "configured": true
-    }).whenComplete(() => Navigator.pushNamed(context, "/alldone"));
+    }).whenComplete(() {
+      setPref(widget.arguments['fName'], widget.arguments['lName']);
+      Navigator.pushNamed(context, "/alldone");
+    });
     setState(() {
       isLoading = false;
     });

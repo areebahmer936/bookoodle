@@ -10,6 +10,9 @@
 .svn/
 migrate_working_dir
 .keystore
+getkeys.bat
+install7a.bat
+install8a.bat
 
 # IntelliJ related
 *.iml

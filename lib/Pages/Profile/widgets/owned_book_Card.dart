@@ -1,8 +1,10 @@
+import 'package:bookoodle/models/book.dart';
 import 'package:bookoodle/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-class BookCard extends StatelessWidget {
-  const BookCard({super.key});
+class OwnedBookCard extends StatelessWidget {
+  final Book book;
+  const OwnedBookCard({super.key, required this.book});
 
   @override
   Widget build(BuildContext context) {
@@ -18,17 +20,15 @@ class BookCard extends StatelessWidget {
             child: Row(
               children: [
                 Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.grey.shade200,
-                  ),
-                  height: 75,
-                  width: 80,
-                  child: ClipRRect(
-                    child: Image.network(
-                        "https://firebasestorage.googleapis.com/v0/b/bookoodle-79747.appspot.com/o/ProfilePictures%2Fareebahmer936%40gmail.com%2F2023-11-22T21%3A46%3A43.698219Screenshot_2023-11-20-04-00-33-485_com.instagram.android.jpg?alt=media&token=49ada8e8-9529-4f5f-becb-b4a0c0cc3148"),
-                  ),
-                ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.grey.shade200,
+                    ),
+                    height: 75,
+                    width: 80,
+                    child: ClipRRect(
+                      child: Image.network(book.bookPictureUrl),
+                    )),
                 SizedBox(width: 15),
                 Align(
                     alignment: Alignment.topLeft,
@@ -36,12 +36,12 @@ class BookCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Harry Potter",
-                          style: TextStyle(
+                          book.bookName,
+                          style: const TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 1),
-                        Text("By dawd")
+                        Text("By: ${book.bookAuthor}")
                       ],
                     ))
               ],
@@ -57,7 +57,15 @@ class BookCard extends StatelessWidget {
                 onLongPress: () => print("long"),
                 splashColor: peach.withOpacity(0.4),
                 borderRadius: BorderRadius.circular(15),
-                onTap: () => print(3),
+                onTap: () =>
+                    Navigator.pushNamed(context, "/bookdetail", arguments: {
+                  'bookName': book.bookName,
+                  "bookAuthor": book.bookAuthor,
+                  "bookGenre": book.bookGenre,
+                  "bookPictureUrl": book.bookPictureUrl,
+                  "uid": book.uid,
+                  "forOwned": true
+                }),
               ),
             ),
           )

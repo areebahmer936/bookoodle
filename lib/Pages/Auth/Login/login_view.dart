@@ -6,6 +6,7 @@ import 'package:bookoodle/widgets/text_input_feild.dart';
 import 'package:bookoodle/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -27,6 +28,11 @@ class _LoginViewState extends State<LoginView> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    if (kDebugMode) {
+      emailcontroller.text = "areebahmer936@gmail.com";
+      passwordController.text = "654321";
+    }
   }
 
   String? validateEmail(String? value) {
@@ -44,11 +50,12 @@ class _LoginViewState extends State<LoginView> {
     }
   }
 
-  setCredentials(uid, email, fName, lName) async {
+  setCredentials(uid, email, fName, lName, imageUrl) async {
     await HelperFunctions.setUid(uid);
     await HelperFunctions.setUserEmailSf(email);
     await HelperFunctions.setUserLoggedInStatus(true);
     await HelperFunctions.setUserNameSf("${fName} $lName");
+    await HelperFunctions.setProfilePicture(imageUrl);
   }
 
   logIn() async {
@@ -64,9 +71,13 @@ class _LoginViewState extends State<LoginView> {
         DocumentSnapshot ds =
             await FirebaseFirestore.instance.collection("Users").doc(uid).get();
         final userData = UserModel.fromJson(ds.data()! as Map<String, dynamic>);
+
         if (userData.configured != true) {
+          setCredentials(uid, emailcontroller.text, "", "", "");
           Navigator.pushReplacementNamed(context, '/config');
         } else {
+          setCredentials(uid, emailcontroller.text, userData.fName,
+              userData.lName, userData.profilePicture);
           Navigator.pushReplacementNamed(context, '/home');
         }
       } else {

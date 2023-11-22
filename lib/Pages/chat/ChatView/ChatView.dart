@@ -10,8 +10,12 @@ import "package:flutter/material.dart";
 class ChatView extends StatefulWidget {
   final Map<String, dynamic> remoteUserData;
   final String? currentChatRoomId;
-  const ChatView(
-      {super.key, required this.remoteUserData, this.currentChatRoomId});
+  final String sendExchange;
+  ChatView(
+      {super.key,
+      required this.remoteUserData,
+      this.currentChatRoomId,
+      this.sendExchange = ''});
 
   @override
   State<ChatView> createState() => _ChatViewState();
@@ -28,6 +32,9 @@ class _ChatViewState extends State<ChatView> {
     super.initState();
     currentChatRoomId = widget.currentChatRoomId ?? "";
     onInitalize(widget.remoteUserData, currentChatRoomId);
+    if (widget.sendExchange != '') {
+      sendMessage(sendExhange: widget.sendExchange);
+    }
   }
 
   onBack(BuildContext context) {
@@ -46,8 +53,37 @@ class _ChatViewState extends State<ChatView> {
     setState(() {});
   }
 
-  sendMessage() async {
-    if (chatMessageController.text.isNotEmpty) {
+  sendMessage({sendExhange = ""}) async {
+    if (sendExhange != '') {
+      Message message = Message(
+        uid: FirebaseAuth.instance.currentUser!.uid,
+        content: sendExhange,
+        time: DateTime.now(),
+        isRead: false,
+      );
+      sendExhange = '';
+      // if chat room id is empty then create a new chat room
+      if (currentChatRoomId.isEmpty) {
+        await FirebaseFirestore.instance.collection("chatRoom").add({
+          "Users": [FirebaseAuth.instance.currentUser!.uid, remoteUser!.uid],
+          "lastMessage": message.content
+        }).then((value) {
+          currentChatRoomId = value.id;
+        });
+      }
+      // add message to chat room
+      await FirebaseFirestore.instance
+          .collection("chatRoom")
+          .doc(currentChatRoomId)
+          .collection("chats")
+          .add(message.toJson());
+
+      // update last message in chat room
+      await FirebaseFirestore.instance
+          .collection("chatRoom")
+          .doc(currentChatRoomId)
+          .update({"lastMessage": message.content});
+    } else if (chatMessageController.text.isNotEmpty) {
       Message message = Message(
         uid: FirebaseAuth.instance.currentUser!.uid,
         content: chatMessageController.text,
